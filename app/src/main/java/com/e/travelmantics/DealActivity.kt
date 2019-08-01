@@ -1,5 +1,6 @@
 package com.e.travelmantics
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -41,6 +42,12 @@ class DealActivity : AppCompatActivity() {
                 clean()
                 true
             }
+            R.id.delete_menu -> {
+                deleteDeal()
+                Toast.makeText(this,"Deal Deleted",Toast.LENGTH_LONG).show()
+                backToList()
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
         }
@@ -55,12 +62,33 @@ class DealActivity : AppCompatActivity() {
     }
 
     private fun saveDeal() {
-        val title = txtTitle.text.toString()
+       /* val title = txtTitle.text.toString()
         val desc = txtDescription.text.toString()
-        val price = txtPrice.text.toString()
+        val price = txtPrice.text.toString()*/
 
-        val travelDeal = TravelDeal(title,desc,price,"")
-        mDatabaseReference.push().setValue(travelDeal)
+        deal?.title = txtTitle.text.toString()
+        deal?.description = txtDescription.text.toString()
+        deal?.price = txtPrice.text.toString()
+
+        if (deal?.id == null){
+            mDatabaseReference.push().setValue(deal)
+        }else{
+            mDatabaseReference.child(deal!!.id).setValue(deal)
+        }
+
+    }
+
+    private fun deleteDeal(){
+        if(deal==null){
+            Toast.makeText(this,"Please save the deal before delete it ",Toast.LENGTH_LONG).show()
+            return
+        }
+        mDatabaseReference.child(deal!!.id).removeValue()
+    }
+
+    private fun backToList(){
+        val intent = Intent(this,ListActivity::class.java)
+        startActivity(intent)
 
     }
 
