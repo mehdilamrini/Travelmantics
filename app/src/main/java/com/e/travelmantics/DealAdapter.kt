@@ -1,6 +1,7 @@
 package com.e.travelmantics
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.rv_row.view.*
 
-class DealAdapter() : RecyclerView.Adapter<DealViewHolder>() {
+class DealAdapter(callerActivity : ListActivity) : RecyclerView.Adapter<DealViewHolder>() {
 
     private lateinit var context: Context
     private var travelDeals = ArrayList<TravelDeal>()
@@ -20,7 +21,7 @@ class DealAdapter() : RecyclerView.Adapter<DealViewHolder>() {
     private lateinit var mChildListener: ChildEventListener
 
     init {
-        FirebaseUtil.openFbReference("traveldeals")
+        FirebaseUtil.openFbReference("traveldeals",callerActivity)
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase
         mDatabaseReference = FirebaseUtil.mDatabaseReference
         travelDeals = FirebaseUtil.mDeals
