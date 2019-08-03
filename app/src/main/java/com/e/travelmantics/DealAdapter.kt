@@ -8,17 +8,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.rv_row.view.*
 
 class DealAdapter(callerActivity : ListActivity) : RecyclerView.Adapter<DealViewHolder>() {
 
     private lateinit var context: Context
     private var travelDeals = ArrayList<TravelDeal>()
-    private lateinit var mFirebaseDatabase: FirebaseDatabase
-    private lateinit var mDatabaseReference: DatabaseReference
-    private lateinit var mChildListener: ChildEventListener
+    private var mFirebaseDatabase: FirebaseDatabase
+    private var mDatabaseReference: DatabaseReference
+    private var mChildListener: ChildEventListener
+    protected var imageView :ImageView?=null
+
 
     init {
         FirebaseUtil.openFbReference("traveldeals",callerActivity)
@@ -78,6 +82,28 @@ class DealAdapter(callerActivity : ListActivity) : RecyclerView.Adapter<DealView
             context.startActivity(intent)
         }
 
+        showImage(travelDeals[position].imageUrl,holder.imageView)
+
+    }
+
+    private fun showImage(url :String?,image:ImageView){
+        if (!url.isNullOrBlank()){
+            Picasso.with(context)
+                .load(url)
+                .resize(180,180)
+                .placeholder(R.drawable.ic_launcher_background)
+                .centerCrop()
+                .into(image)
+        }
+        else {
+            Picasso.with(context)
+                .load(R.drawable.ic_launcher_background)
+                .resize(180,180)
+                .placeholder(R.drawable.ic_launcher_background)
+                .centerCrop()
+                .into(image)
+        }
+
     }
 
 
@@ -88,4 +114,5 @@ class DealViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val price_text = view.tvPrice
     val desc_text = view.tvDescription
     val container = view.rvCons
+    val imageView = view.imageView
 }

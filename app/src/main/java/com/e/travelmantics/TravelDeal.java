@@ -4,6 +4,28 @@ package com.e.travelmantics;
 import java.io.Serializable;
 
 public class TravelDeal implements Serializable {
+
+
+    private String id;
+    private String title;
+    private String description;
+    private String price;
+    private String imageUrl;
+
+    private String imageName;
+
+    public TravelDeal(String title, String description, String price, String imageUrl, String imageName) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.imageName = imageName;
+    }
+
+    public TravelDeal() {
+    }
+
     public String getId() {
         return id;
     }
@@ -44,20 +66,12 @@ public class TravelDeal implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    private String id ;
-    private String title;
-    private String description;
-    private String price;
-    private String imageUrl;
-
-    public TravelDeal(String title, String description, String price, String imageUrl) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.imageUrl = imageUrl;
+    public String getImageName() {
+        return imageName;
     }
 
-    public TravelDeal(){}
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
 
 }
